@@ -27,16 +27,6 @@ export const AppLayout = ({ children }) =>{
                 <ul className={"flex-1 overflow-auto bg-gradient-to-b " +
                     "from-slate-800 to-cyan-800"}>
                     list of posts:
-                    {
-                        // render list of 100 posts
-                        Array.from({length: 100}, (_, i) => (
-                            <li key={i} className={"p-2 border-b border-slate-700"}>
-                                <div>post title {i}</div>
-                                <div>post author</div>
-                            </li>
-                        ))
-                    }
-
                 </ul>
 
                 {/* third section */}

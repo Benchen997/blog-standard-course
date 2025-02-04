@@ -1,12 +1,13 @@
 import React from 'react'
 import {withPageAuthRequired} from "@auth0/nextjs-auth0";
 import { AppLayout } from "../../components";
-import Markdown from 'react-markdown';
+import {useRouter} from "next/navigation";
+import {getAppProps} from "../../utils/getAppProps";
 
 export default function NewPost() {
     const [topic , setTopic] = React.useState('');
     const [keywords , setKeywords] = React.useState('');
-    const [post , setPost] = React.useState('')
+    const router = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -17,12 +18,15 @@ export default function NewPost() {
             },
             body: JSON.stringify({ topic, keywords })
         });
-        const data = await response.json();
-        setPost(data.post.postContent);
+        const { postId } = await response.json();
+        if (postId) {
+            router.push(`/post/${postId}`);
+        }
+
     }
   return (
-      <div>
-          <form onSubmit={handleSubmit}>
+      <div className={"flex w-full justify-center items-center h-screen"}>
+          <form onSubmit={handleSubmit} className={"p-4 w-4/5 mx-auto"}>
               <div>
                   <label>
                       <strong>
@@ -42,12 +46,6 @@ export default function NewPost() {
               <button type={"submit"} className={"btn"}>
                   Generate
               </button>
-                <div className={"my-4"}>
-                    <h2>Generated Post:</h2>
-                    <Markdown>
-                        {post}
-                    </Markdown>
-                </div>
           </form>
       </div>
   )
@@ -61,9 +59,10 @@ NewPost.getLayout = function getLayout(page, pageProps) {
 }
 
 // This function gets called at build time, and then again at each request, passing the context object.
-export const getServerSideProps = withPageAuthRequired(async () => {
-  return {
-    props: {},
-  }
+export const getServerSideProps = withPageAuthRequired({
+    async getServerSideProps(ctx) {
+        const props = await getAppProps(ctx);
+        return { props };
+    }
 });
 

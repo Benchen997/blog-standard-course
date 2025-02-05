@@ -24,17 +24,20 @@ export const AppLayout = ({ children, availableTokens, posts, postId }) =>{
                 </header>
 
                 {/* second section */}
-                <ul className={"px-4 flex-1 overflow-auto bg-gradient-to-b " +
-                    "from-slate-800 to-cyan-800"}>
-                    {
-                        posts.map((post)=>(
-                            <Link className={`py-1 border border-white/0 block text-ellipsis overflow-hidden whitespace-nowrap 
-                            my-1 px-2 bg-white/10 cursor-pointer rounded-md ${post._id === postId ? "bg-white/20 border-white" : ""}`}
-                                key={post._id} href={`/post/${post._id}`}>
+                <ul className={"px-4 flex-1 overflow-auto bg-gradient-to-b from-slate-800 to-cyan-800"}>
+                    {!posts ? (
+                        <li className={"text-center p-4"}>No posts yet</li>
+                    ) : (
+                        posts.map((post) => (
+                            <Link
+                                className={`list-none py-1 border border-white/0 block text-ellipsis overflow-hidden whitespace-nowrap my-1 px-2 bg-white/10 cursor-pointer rounded-md ${post._id === postId ? "bg-white/20 border-white" : ""}`}
+                                key={post._id}
+                                href={`/post/${post._id}`}
+                            >
                                 {post.topic}
                             </Link>
                         ))
-                    }
+                    )}
                 </ul>
 
                 {/* third section */}

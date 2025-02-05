@@ -1,6 +1,11 @@
 import '../styles/globals.css'
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { DM_Sans, DM_Serif_Display } from "next/font/google"
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+
+// Prevent fontawesome from dynamically adding its css since we did it manually
+config.autoAddCss = false;
 
 // create custom tailwind typography plugin
 const dmSans = DM_Sans({
